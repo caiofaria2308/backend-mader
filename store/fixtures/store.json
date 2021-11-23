@@ -1,0 +1,24 @@
+[
+    {
+        "model": "store.store",
+        "pk": "99792a43-df55-5f02-9783-3073011266c2",
+        "fields": {
+            "created_at": "2021-11-23 15:51:52.074446",
+            "updated_at": "2021-11-23 15:51:52.074446",
+            "company_name": "CAIO DE FARIA NOGUEIRA CONSULTORIA EM TECNOLOGIA DA INFORMACAO",
+            "fantasy_name": "WALNUT",
+            "cnpj": "43170239000112",
+            "tax_regime": "1",
+            "state_registration": "",
+            "municipal_registration": "70388733",
+            "cnae": "6201501",
+            "address_address": "Avenida Flamingo",
+            "address_zip_code": "08031000",
+            "address_number": "69",
+            "address_district": "Vila Nova Curuçá",
+            "address_city": "São Paulo",
+            "address_city_ibge": "3550308",
+            "address_state": "SP"
+        }
+    }
+]
