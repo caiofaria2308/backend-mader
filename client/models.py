@@ -21,6 +21,10 @@ class Client(models.Model):
         verbose_name="data de atualização",
         auto_now=True
     )
+    is_active = models.BooleanField(
+        verbose_name="se tipo de produto está ativo",
+        default=True
+    )
     
     name = models.CharField(
         verbose_name="nome",
