@@ -29,6 +29,14 @@ class Store(models.Model):
         verbose_name="nome fantasia",
         max_length=256
     )
+    phone = models.CharField(
+        verbose_name="Whatsapp",
+        max_length=11
+    )
+    is_whatsapp = models.BooleanField(
+        verbose_name="se telefone é whatsapp",
+        default=True
+    )
     cnpj = CNPJField(unique=True)
     tax_regime = models.CharField(
         verbose_name="regime tributário",

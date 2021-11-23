@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_cpf_cnpj',
     'store',
-    'user'
+    'user',
+    'client',
+    'order',
+    'product'
 ]
 
 MIDDLEWARE = [

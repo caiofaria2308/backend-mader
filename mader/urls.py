@@ -25,4 +25,8 @@ urlpatterns = [
     url(r'api/auth/', obtain_jwt_token),
     path('api/user/', include('user.urls')),
     path('api/store/', include('store.urls')),
+    path('api/order/', include('order.urls')),
+    path('api/client/', include('client.urls')),
+    path('api/product/', include('product.urls')),
+
 ]
