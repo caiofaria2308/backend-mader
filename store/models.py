@@ -4,10 +4,10 @@ import uuid
 
 # Create your models here.
 class Store(models.Model):
-    REGIMES = (
+    REGIMES = [
         ("1", "SIMPLES NACIONAL"),
         ("3", "NORMAL")
-    )
+    ]
     id = models.UUIDField(
         verbose_name="id",
         primary_key=True,
