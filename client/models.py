@@ -22,7 +22,7 @@ class Client(models.Model):
         auto_now=True
     )
     is_active = models.BooleanField(
-        verbose_name="se tipo de produto está ativo",
+        verbose_name="se cliente está ativo",
         default=True
     )
     

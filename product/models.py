@@ -98,7 +98,7 @@ class Product(models.Model):
         auto_now=True
     )
     is_active = models.BooleanField(
-        verbose_name="se tipo de produto está ativo",
+        verbose_name="se produto está ativo",
         default=True
     )
     type = models.ForeignKey(
