@@ -11,7 +11,7 @@ class Client(models.Model):
     id = models.UUIDField(
         verbose_name="id",
         primary_key=True,
-        default=uuid.uuid5(uuid.uuid4(),"mader_client")
+        default=uuid.uuid4
     )
     created_at = models.DateTimeField(
         verbose_name="data de criação",
@@ -20,6 +20,10 @@ class Client(models.Model):
     updated_at = models.DateTimeField(
         verbose_name="data de atualização",
         auto_now=True
+    )
+    is_active = models.BooleanField(
+        verbose_name="se tipo de produto está ativo",
+        default=True
     )
     
     name = models.CharField(
