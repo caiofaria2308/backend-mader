@@ -12,8 +12,9 @@ class TypeSerializer(serializers.ModelSerializer):
         
         
 class ProductSerializer(serializers.ModelSerializer):
+    type = TypeSerializer(read_only=True)
     type_id = serializers.UUIDField()
-    type_name = serializers.CharField(read_only=True)
+    type_name = serializers.ReadOnlyField()
     class Meta:
         model = Product
         fields = "__all__"

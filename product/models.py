@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 import uuid
 
 
@@ -6,7 +7,7 @@ class Type(models.Model):
     id = models.UUIDField(
         verbose_name="id",
         primary_key=True,
-        default=uuid.uuid5(uuid.uuid4(),"mader_client")
+        default=uuid.uuid4
     )
     created_at = models.DateTimeField(
         verbose_name="data de criação",
@@ -28,17 +29,65 @@ class Type(models.Model):
 
 
 class Product(models.Model):
-    TYPE_UNIT = (
+    TYPE_UNIT = [
         ('UN', 'UNIDADE'),
         ('CX', 'CAIXA'),
         ('KG', 'KILOGRAMA'),
         ('PACOTE', 'PACOTE'),
         ('PC', 'PEÇA')
-    )
+    ]
+    TYPE_ORIGIN = [
+        (0, 'Nacional, exceto as indicadas nos códigos 3 a 5 '),
+        (1, 'Estrangeira - Importação direta, exceto a indicada no código 6 '),
+        (2, 'Estrangeira - Adquirida no mercado interno, exceto a indicada no código 7 '),
+        (3, 'Nacional, mercadoria ou bem com Conteúdo de Importação superior a 40%'),
+        (4, "Nacional, cuja produção tenha sido feita em conformidade com os processos "\
+            "produtivos básicos de que tratam o Decreto-Lei nº 288/67 e as Leis nºs 8.248/91,"\
+            "8.387/91, 10.176/01 e 11.484/07"
+         ),
+        (5, 'Nacional, mercadoria ou bem com Conteúdo de Importação inferior ou igual a 40%'),
+        (6 ,"Estrangeira - Importação direta, sem similar nacional, constante em lista de Resolução CAMEX"),
+        (7, "Estrangeira - Adquirida no mercado interno, sem similar nacional, constante em lista "\
+            "de Resolução CAMEX"
+        )
+    ]
+    TYPE_CST = [
+        ('00', 'Tributada integralmente'),
+        ('10', 'Tributada e com cobrança do ICMS por substituição tributária'),
+        ('20', 'Com redução da BC'),
+        ('30', 'Isenta / não tributada e com cobrança do ICMS por substituição tributária'),
+        ('40', 'Isenta'),
+        ('41', 'Não tributada'),
+        ('50', 'Com suspensão'),
+        ('51', 'Com diferimento'),
+        ('60', 'ICMS cobrado anteriormente por substituição tributária'),
+        ('70', 'Com redução da BC e cobrança do ICMS por substituição tributária'),
+        ('90', 'Outras')
+    ]
+    TYPE_CSOSN = [
+        (101, 'Tributada pelo Simples Nacional com permissão de crédito'),
+        (102, 'Tributada pelo Simples Nacional sem permissão de crédito '),
+        (103, 'Isenção do ICMS no Simples Nacional para faixa de receita bruta'),
+        (201,"Tributada pelo Simples Nacional com permissão de crédito e com cobrança do ICMS "\
+             "por substituição tributária"
+        ),
+        (202,"Tributada pelo Simples Nacional sem permissão de crédito e com cobrança do ICMS "\
+            "por substituição tributária"
+        ),
+        (203, "Isenção do ICMS no Simples Nacional para faixa de receita bruta e com cobrança do "\
+            "ICMS por substituição tributária "
+        ),
+        (300, 'Imune'),
+        (400, 'Não tributada pelo Simples Nacional'),
+        (500,"ICMS cobrado anteriormente por substituição tributária (substituído) ou por "\
+            "antecipação "
+        ),
+        (900, 'Outros')
+    ]
     id = models.UUIDField(
         verbose_name="id",
         primary_key=True,
-        default=uuid.uuid5(uuid.uuid4(),"mader_client")
+        default=uuid.uuid4
     )
     created_at = models.DateTimeField(
         verbose_name="data de criação",
@@ -101,59 +150,60 @@ class Product(models.Model):
         max_length=20,
         null=True
     )
-    cfop = models.CharField(
+    cfop = models.SmallIntegerField(
         verbose_name="cfop",
-        max_length=4,
         null=True
     )
     icms_modality = models.CharField(
         verbose_name="modalidade do icms",
-        max_length=5,
-        null=True
+        null=True,
+        max_length=2,
+        choices=TYPE_CST
     )
-    icms_aliquot = models.CharField(
+    icms_aliquot = models.DecimalField(
         verbose_name="aliquota icms",
-        max_length=10,
+        max_digits=10,
+        decimal_places=2,
         null=True
     )
-    icms_origin = models.CharField(
+    icms_origin = models.SmallIntegerField(
         verbose_name="origem icms",
-        max_length=10,
-        null=True
+        null=True,
+        choices=TYPE_ORIGIN
     )
-    icms_csosn = models.CharField(
+    icms_csosn = models.SmallIntegerField(
         verbose_name="icms csosn",
-        max_length=10,
-        null=True
+        null=True,
+        choices=TYPE_CSOSN
     )
-    pis_modality = models.CharField(
+    pis_modality = models.SmallIntegerField(
         verbose_name="modalidade pis",
-        max_length=10,
         null=True
     )
-    pis_aliquot = models.CharField(
+    pis_aliquot = models.DecimalField(
         verbose_name="aliquota pis",
-        max_length=10,
+        max_digits=10,
+        decimal_places=2,
         null=True
     )
-    cofins_modality = models.CharField(
+    cofins_modality = models.SmallIntegerField(
         verbose_name="modalidade cofins",
-        max_length=10,
         null=True
     )
-    cofins_aliquot = models.CharField(
+    cofins_aliquot = models.DecimalField(
         verbose_name="aliquota cofins",
-        max_length=10,
+        max_digits=10,
+        decimal_places=2,
         null=True
     )
-    ipi_framework = models.CharField(
+    ipi_framework = models.SmallIntegerField(
         verbose_name="enquadramento ipi",
-        max_length=10,
         null=True
     )
-    ipi_aliquot = models.CharField(
+    ipi_aliquot = models.DecimalField(
         verbose_name="aliquota ipi",
-        max_length=10,
+        max_digits=10,
+        decimal_places=2,
         null=True
     )
     
@@ -164,8 +214,5 @@ class Product(models.Model):
     
     
     def save(self, *args, **kwargs):
-        if self.__state.adding:
-            last_id = self.objects.all().aggregate(largest=models.Max('internal_code'))
-            if last_id is not None:
-                self.internal_code = last_id + 1
+        self.internal_code = int(datetime.utcnow().timestamp())
         super(Product, self).save(*args, **kwargs)

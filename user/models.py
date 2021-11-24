@@ -52,7 +52,7 @@ class Type(models.Model):
     id = models.UUIDField(
         verbose_name="ID",
         primary_key=True,
-        default=uuid.uuid5(uuid.uuid4(), name="mader_user")
+        default=uuid.uuid4
     )
     created_at = models.DateTimeField(
         verbose_name="data de criação",

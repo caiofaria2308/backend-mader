@@ -11,7 +11,7 @@ class Client(models.Model):
     id = models.UUIDField(
         verbose_name="id",
         primary_key=True,
-        default=uuid.uuid5(uuid.uuid4(),"mader_client")
+        default=uuid.uuid4
     )
     created_at = models.DateTimeField(
         verbose_name="data de criação",
