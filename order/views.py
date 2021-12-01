@@ -1,6 +1,4 @@
-from re import search
 from rest_framework.response import Response
-from rest_framework.utils import serializer_helpers
 from defaults import DefaultMixin
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django_filters.rest_framework.backends import DjangoFilterBackend
@@ -16,8 +14,11 @@ from pynfe.processamento.serializacao import SerializacaoXML
 from pynfe.processamento.assinatura import AssinaturaA1
 from pynfe.utils.flags import CODIGO_BRASIL
 
+from mader.pagination import CustomPagination
+
 
 from .serializers import (
+    NfeSerializer,
     OrderSerializer,
     ProductSerializer,
     SubwaySerializer,
@@ -27,6 +28,7 @@ from .serializers import (
 )
 
 from .models import (
+    Nfe,
     Order,
     Product,
     SubwayStation,
@@ -49,11 +51,13 @@ class OrderViewSet(DefaultMixin, ListCreateAPIView):
         'is_finished',
         'type_delivery'
     ]
+    pagination_class = CustomPagination
     
 
 class OrderList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    pagination_class = CustomPagination
     
     
 class OrderMonthsList(DefaultMixin, ListAPIView):
@@ -106,12 +110,13 @@ class ProductViewSet(DefaultMixin, ListCreateAPIView):
         'order',
         'product'
     ]
+    pagination_class = CustomPagination
     
     
-
 class ProductList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    pagination_class = CustomPagination
     
     
 class SubwayStationViewSet(DefaultMixin, ListCreateAPIView):
@@ -124,11 +129,13 @@ class SubwayStationViewSet(DefaultMixin, ListCreateAPIView):
     search_fields = [
         '$name'
     ]
+    pagination_class = CustomPagination
     
     
 class SubwayStationList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = SubwayStation.objects.all()
     serializer_class = SubwaySerializer
+    pagination_class = CustomPagination
     
 
 class SubwayLineList(DefaultMixin, ListAPIView):
@@ -154,14 +161,15 @@ class DeliverySubwayViewSet(DefaultMixin, ListCreateAPIView):
         'responsible',
         'delivered_date'
     ]
+    pagination_class = CustomPagination
     
     
 class DeliverySubwayList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = DeliverySubway.objects.all()
     serializer_class = DeliverySubwaySerializer
+    pagination_class = CustomPagination
     
-    
-    
+        
 class DeliveryMailViewSet(DefaultMixin, ListCreateAPIView):
     queryset = DeliveryMail.objects.all().order_by('created_at').reverse()
     serializer_class = DeliveryMailSerializer
@@ -169,11 +177,13 @@ class DeliveryMailViewSet(DefaultMixin, ListCreateAPIView):
         'order',
         'tracking_code'
     ]
+    pagination_class = CustomPagination
     
     
 class DeliveryMailList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = DeliveryMail.objects.all()
     serializer_class = DeliveryMailSerializer
+    pagination_class = CustomPagination
     
     
 class PaymentViewSet(DefaultMixin, ListCreateAPIView):
@@ -183,11 +193,13 @@ class PaymentViewSet(DefaultMixin, ListCreateAPIView):
         'order',
         'is_paid'
     ]
+    pagination_class = CustomPagination
     
     
 class PaymentList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+    pagination_class = CustomPagination
     
     
 class FormPaymentList(DefaultMixin, ListAPIView):
@@ -217,3 +229,17 @@ class TypePaymentList(DefaultMixin, ListAPIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
             
+                  
+class NfeViewSet(DefaultMixin, ListCreateAPIView):
+    queryset = Nfe.objects.all().order_by('created_at').reverse()
+    serializer_class = NfeSerializer
+    filterset_fields = [
+        'order'
+    ]
+    pagination_class = CustomPagination
+    
+    
+class NfeList(DefaultMixin, RetrieveUpdateDestroyAPIView):
+    queryset = Nfe.objects.all()
+    serializer_class = NfeSerializer
+    pagination_class = CustomPagination

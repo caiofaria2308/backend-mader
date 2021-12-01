@@ -78,19 +78,7 @@ class Order(models.Model):
         verbose_name="tipo de entrega",
         choices=TYPE_DELIVERY
     )
-    xml = models.TextField(
-        verbose_name="xml",
-        null=True
-    )
-    xml_key = models.TextField(
-        verbose_name="chave do xml",
-        null=True
-    )
-    additional_information = models.TextField(
-        verbose_name="Informação adicional",
-        null=True,
-        blank=True
-    )
+    
     
     def save(self, *args, **kwargs):
         now = datetime.now()
@@ -318,5 +306,40 @@ class Payment(models.Model):
         verbose_name="valor pago",
         max_digits=10,
         decimal_places=2
+    )
+    
+    
+class Nfe(models.Model):
+    id = models.UUIDField(
+        verbose_name="id",
+        primary_key=True,
+        default=uuid.uuid4
+    )
+    created_at = models.DateTimeField(
+        verbose_name="data de criação",
+        auto_now_add=True
+    )
+    updated_at = models.DateTimeField(
+        verbose_name="data de atualização",
+        auto_now=True
+    )
+    order = models.ForeignKey(
+        to="order.Order",
+        verbose_name="pedido",
+        related_name="+",
+        on_delete=models.CASCADE
+    )
+    xml = models.TextField(
+        verbose_name="xml",
+        null=True
+    )
+    xml_key = models.TextField(
+        verbose_name="chave do xml",
+        null=True
+    )
+    additional_information = models.TextField(
+        verbose_name="Informação adicional",
+        null=True,
+        blank=True
     )
     

@@ -5,6 +5,7 @@ from defaults import DefaultMixin
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import filters
+from mader.pagination import CustomPagination
 
 
 class ClientViewSet(DefaultMixin, ListCreateAPIView):
@@ -19,8 +20,10 @@ class ClientViewSet(DefaultMixin, ListCreateAPIView):
         'document_number',
         'document_type'
     ]
+    pagination_class = CustomPagination
     
     
 class ClientList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    pagination_class = CustomPagination

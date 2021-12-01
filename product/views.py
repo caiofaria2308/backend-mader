@@ -4,6 +4,7 @@ from defaults import DefaultMixin
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import filters, status
+from mader.pagination import CustomPagination
 
 from .serializers import  (
     TypeSerializer,
@@ -23,11 +24,13 @@ class TypeViewSet(DefaultMixin, ListCreateAPIView):
     search_fields = [
         '$name'
     ]
+    pagination_class = CustomPagination
     
     
 class TypeList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
+    pagination_class = CustomPagination
     
     
 class ProductViewSet(DefaultMixin, ListCreateAPIView):
@@ -41,11 +44,13 @@ class ProductViewSet(DefaultMixin, ListCreateAPIView):
         'internal_code',
         'ean'
     ]
+    pagination_class = CustomPagination
     
     
 class ProductList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all().order_by('description')
     serializer = ProductSerializer
+    pagination_class = CustomPagination
     
     
 class TypeUnitViewSet(DefaultMixin, ListAPIView):

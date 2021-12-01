@@ -8,6 +8,7 @@ from defaults import DefaultMixin
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import filters, status
+from mader.pagination import CustomPagination
 
 # Create your views here.
 
@@ -18,11 +19,13 @@ class UserViewSet(DefaultMixin, ListCreateAPIView):
     search_fields = [
         '$phone'
     ]
+    pagination_class = CustomPagination
     
     
 class UserList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
+    pagination_class = CustomPagination
     
     
     def put(self, request, *args, **kwargs):
@@ -36,9 +39,8 @@ class UserList(DefaultMixin, RetrieveUpdateDestroyAPIView):
                 for key, value in data.items():
                     setattr(obj, key, value)
                 obj.set_password(data["password"])
-                data["password"] = obj.password
+                obj.save()
                 serializer = UserSerializer(obj)
-                serializer.update(obj, data)
                 return Response(
                     serializer.data,
                     status=status.HTTP_200_OK
@@ -58,8 +60,10 @@ class TypeViewSet(DefaultMixin, ListCreateAPIView):
     search_fields = [
         '$name'
     ]
+    pagination_class = CustomPagination
     
     
 class TypeList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = Type.objects.all().order_by('name')
     serializer_class = TypeSerializer
+    pagination_class = CustomPagination

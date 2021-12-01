@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import (
+    NfeList,
+    NfeViewSet,
     OrderList,
     OrderViewSet,
     OrderTypeStatusList,
@@ -30,5 +32,7 @@ urlpatterns = [
     path('delivery-mail/', DeliveryMailViewSet.as_view()),
     path('delivery-mail/<str:pk>', DeliveryMailList.as_view()),
     path('delivery-subway/', DeliverySubwayViewSet.as_view()),
-    path('delivery-subway/<str:pk>', DeliverySubwayList.as_view())
+    path('delivery-subway/<str:pk>', DeliverySubwayList.as_view()),
+    path('nfe/', NfeViewSet.as_view()),
+    path('nfe/<str:pk>', NfeList.as_view())
 ]

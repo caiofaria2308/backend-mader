@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from user.serializers import UserSerializer
 from .models import (
+    Nfe,
     Order,
     Product,
     SubwayStation,
@@ -70,4 +71,13 @@ class PaymentSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Payment
+        fields = "__all__"
+        
+        
+class NfeSerializer(serializers.ModelSerializer):
+    order = OrderSerializer(read_only=True)
+    order_id = serializers.UUIDField()
+    
+    class Meta:
+        model = Nfe
         fields = "__all__"
