@@ -151,13 +151,15 @@ class DeliverySubwayViewSet(DefaultMixin, ListCreateAPIView):
     filterset_fields = [
         'order',
         'station',
-        'responsible'
+        'responsible',
+        'delivered_date'
     ]
     
     
 class DeliverySubwayList(DefaultMixin, RetrieveUpdateDestroyAPIView):
     queryset = DeliverySubway.objects.all()
     serializer_class = DeliverySubwaySerializer
+    
     
     
 class DeliveryMailViewSet(DefaultMixin, ListCreateAPIView):

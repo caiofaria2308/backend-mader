@@ -96,8 +96,8 @@ class Order(models.Model):
         now = datetime.now()
         months = dict(self.MONTHS)
         month = months.get(now.month)[0:3]
-        self.number = f"{month}{now.year}{now.month}{now.day}{now.hour}"\
-                    f"{now.minute}{now.microsecond}"
+        self.number = f"{month}{now.year}{now.month}{now.day}{now.client.id[0:5]}{now.hour}"\
+                    f"{now.minute}"
         super(Order, self).save(*args, **kwargs)
     
     
@@ -220,8 +220,11 @@ class DeliverySubway(models.Model):
         related_name="+",
         on_delete=models.CASCADE
     )
-    delivered_date = models.DateTimeField(
+    delivered_date = models.DateField(
         verbose_name="data de entrega"
+    )
+    delivered_hour = models.TimeField(
+        verbose_name="hora de entrega"
     )
     station = models.ForeignKey(
         to="order.SubwayStation",
